@@ -1,0 +1,5 @@
+output is not appearing when popened in a signal
+try in a different program popening in a signal
+
+pbm
+pgm not written for reading from kb and popen and pgm written for writing output using fifo only not working if writing output using fifo

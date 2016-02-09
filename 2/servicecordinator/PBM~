@@ -1,0 +1,1 @@
+solved-service 2 is not executing at all even if 2 shared memories are created and no sem are there and even if 2 clients are sending req at a time

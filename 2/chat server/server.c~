@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <pthread.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+#include <poll.h>
+int main()
+{
+	mkfifo("client1",0666);
+	mkfifo("client2",0666);
+	int fd1=open("client1",O_RDWR);
+	int fd2=open("client2",O_RDWR);
+	int no=2;
+	struct pollfd pfds[no];
+	pfds[0].fd=fd1;
+	pfds[1].fd=fd2;
+	pfds[0].events=POLLIN;
+	pfds[1].events=POLLIN;
+	while(1)
+	{
+	int ret=poll(pfds,no,0);
+	if(ret)
+	{
+	//	printf("ready\n");
+		int i;
+		for(i=0;i<no;i++)
+		{
+			if(pfds[i].revents!=0)
+			{
+			char msg[100];
+			printf(" %d is ready %d\n",i,pfds[i].revents);
+			}
+		}
+	}
+	}
+}

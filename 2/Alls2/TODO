@@ -1,0 +1,2 @@
+0-kb -polling
+polling popen bcz it returns file ptr

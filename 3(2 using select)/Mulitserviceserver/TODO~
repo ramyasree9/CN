@@ -1,0 +1,4 @@
+1.different services or same service -differnet processes
+2.if two clients request same service
+3.many clients writing to same fifo mss -synchronisation
+4.how client knows its service is going to be accepted

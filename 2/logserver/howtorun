@@ -1,0 +1,3 @@
+prep all exes
+run log server
+run all clients

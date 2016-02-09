@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <pthread.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/ipc.h>
+#include <sys/sem.h>
+#include <poll.h>
+int main(int argc,char *argv[])
+{
+	char filename[100];
+	strcpy(filename,"client");
+	strcat(filename,argv[1]);
+	strcat(filename,"fifo");
+	printf("client 1 is creating fifo %s \n",filename);
+	mkfifo(filename,0666);
+	int fd=open(filename,O_RDWR);
+	int fd1=open("MSS",O_WRONLY);
+	while(1)
+	{
+		int n;
+		printf("enter the service no- client %s wants\n",argv[1]);
+		scanf("%d",&n);
+		char s[10];
+		s[0]=n+'0';
+		s[1]='|';
+		s[2]='\0';
+		strcat(s,filename);
+		printf("client is writing %s to mss fifo",s);
+		write(fd1,s,strlen(s));		//not checked for synchronisation
+	//	write(fd1,"|",1);
+	//	write(fd1,filename,strlen(s));
+		if(n==1)
+		{
+			printf("enter file name to read by service 1\n");
+			char file[100];
+			scanf("%s",file);
+			write(fd,file,strlen(file));
+			sleep(5);
+			char buffer[1000];	
+			read(fd,buffer,1000);
+			printf("service 1 read %s\n",buffer);
+		}
+	}
+}
